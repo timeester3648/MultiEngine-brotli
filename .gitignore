@@ -18,3 +18,9 @@ __pycache__/
 *.txt.uncompressed
 *.br
 *.unbr
+
+# exclude project files
+**.sln
+**.vcxproj
+**.vcxproj.user
+**.vcxproj.filters
