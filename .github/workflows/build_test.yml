@@ -86,17 +86,17 @@ jobs:
             cxx_compiler: g++
             os: macos-latest
 
-          - name: cmake-win64:msvc2019-rel
+          - name: cmake-win64:msvc-rel
             build_system: cmake
-            cmake_generator: Visual Studio 16 2019
+            cmake_generator: Visual Studio 17 2022
             cmake_config: Release
-            os: windows-2019
+            os: windows-latest
 
-          - name: cmake-win64:msvc2019-dbg
+          - name: cmake-win64:msvc-dbg
             build_system: cmake
-            cmake_generator: Visual Studio 16 2019
+            cmake_generator: Visual Studio 17 2022
             cmake_config: Debug
-            os: windows-2019
+            os: windows-latest
 
           - name: fuzz:clang15
             build_system: fuzz
@@ -159,10 +159,6 @@ jobs:
             build_system: bazel
             bazel_project: java
 
-          - name: bazel:js
-            build_system: bazel
-            bazel_project: js
-
           - name: bazel:research
             build_system: bazel
             bazel_project: research
@@ -180,11 +176,6 @@ jobs:
           - name: bazel-osx:java
             build_system: bazel
             bazel_project: java
-            os: macos-latest
-
-          - name: bazel-osx:js
-            build_system: bazel
-            bazel_project: js
             os: macos-latest
 
           - name: bazel-osx:research
@@ -207,12 +198,6 @@ jobs:
             build_system: bazel
             bazel_project: java
             os: windows-latest
-
-          # TODO: blocked by Bazel Closure rules issue
-          #- name: bazel-win:js
-          #  build_system: bazel
-          #  bazel_project: js
-          #  os: windows-latest
 
           - name: bazel-win:research
             build_system: bazel
@@ -303,9 +288,9 @@ jobs:
           with open(match) as manifest:
             for entry in manifest:
               entry = entry.strip()
-              if not entry.startswith("org_brotli_java"):
+              if not entry.startswith("_main"):
                 continue
-              if entry.startswith('org_brotli_java/external'):
+              if entry.startswith("_main/external"):
                 continue
               (alias, space, link) = entry.partition(' ')
               if alias.endswith('.jar') or alias.endswith('.exe'):
@@ -338,7 +323,7 @@ jobs:
         cd integration
         mvn -B verify
 
-    - uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236 # v4.7.1
+    - uses: actions/setup-python@0a5c61591373683505ea898e09a3ea4f39ef2b9c # v5.0.0
       if: ${{ matrix.build_system == 'python' }}
       with:
         python-version: ${{ matrix.python_version }}
