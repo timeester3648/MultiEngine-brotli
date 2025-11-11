@@ -6,11 +6,8 @@
 
 #include "state.h"
 
-#include <stdlib.h>  /* free, malloc */
-
-#include <brotli/types.h>
-
 #include "../common/dictionary.h"
+#include "../common/platform.h"
 #include "huffman.h"
 
 #if defined(__cplusplus) || defined(c_plusplus)
@@ -180,7 +177,7 @@ BROTLI_BOOL BrotliDecoderHuffmanTreeGroupInit(BrotliDecoderState* s,
   group->alphabet_size_limit = (uint16_t)alphabet_size_limit;
   group->num_htrees = (uint16_t)ntrees;
   group->htrees = p;
-  group->codes = (HuffmanCode*)(&p[ntrees]);
+  group->codes = p ? (HuffmanCode*)(&p[ntrees]) : NULL;
   return !!p;
 }
 
