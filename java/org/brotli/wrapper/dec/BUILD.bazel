@@ -1,3 +1,6 @@
+load("@rules_java//java:java_library.bzl", "java_library")
+load("@rules_java//java:java_test.bzl", "java_test")
+
 package(default_visibility = ["//visibility:public"])
 
 licenses(["notice"])  # MIT
@@ -99,5 +102,18 @@ java_test(
         "-DBROTLI_JNI_LIBRARY=$(location :brotli_jni)",
     ],
     test_class = "org.brotli.wrapper.dec.CornerCasesTest",
+    runtime_deps = [":test_lib"],
+)
+
+java_test(
+    name = "DecoderJNITest",
+    size = "large",
+    data = [
+        ":brotli_jni",  # Bazel JNI workaround
+    ],
+    jvm_flags = [
+        "-DBROTLI_JNI_LIBRARY=$(location :brotli_jni)",
+    ],
+    test_class = "org.brotli.wrapper.dec.DecoderJNITest",
     runtime_deps = [":test_lib"],
 )
