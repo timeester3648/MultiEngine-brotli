@@ -41,6 +41,9 @@ typedef struct BrotliEncoderParams {
   BrotliDistanceParams dist;
   /* TODO(eustas): rename to BrotliShared... */
   SharedEncoderDictionary dictionary;
+  int base64_mode;
+  size_t max_base64_regions;
+  BrotliEncoderSimdHasher simd_hasher;
 } BrotliEncoderParams;
 
 #endif  /* BROTLI_ENC_PARAMS_H_ */
